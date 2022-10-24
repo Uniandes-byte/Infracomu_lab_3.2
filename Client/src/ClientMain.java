@@ -22,12 +22,16 @@ public class ClientMain {
         
         // Se elimina archivos presentes en ArchivosRecibidos.
         deleteDirectory();
+        //Se eliminan los logs presentes en Logs.
+        deleteLogDirectory();
 
         // Inicializa y comienza cada thread que representa clientes que intentan conectarse al servidor.
         for( int i = 0; i<numberOfClients; i++){
             ClientThread c = new ClientThread(i,numberOfClients);
             System.out.println("Client with id " + i + " is connected.");
             c.run();
+            
+
         } 
     }
 
@@ -73,6 +77,16 @@ public class ClientMain {
             return false;
         }
         return true;
+    }
+
+    public static void deleteLogDirectory(){
+        File directory = new File("Client/Logs");
+ 
+        for (File file: Objects.requireNonNull(directory.listFiles())) {
+            if (!file.isDirectory()) {
+                file.delete();
+            }
+        }
     }
 
     public static void deleteDirectory(){

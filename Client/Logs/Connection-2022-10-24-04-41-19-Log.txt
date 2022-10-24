@@ -1,0 +1,4 @@
+Fecha Prueba: 2022/10/24 04:41:19
+Nombre Archivo: Cliente0-Prueba-3.txt Tamano: 276357120 Bytes
+Entrega del archivo: Entrega Fallida*
+Tiempo Transferencia: 15855ms
