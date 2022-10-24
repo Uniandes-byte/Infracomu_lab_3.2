@@ -1,6 +1,7 @@
 package Server.src;
-
+import java.io.File;
 import java.util.Scanner;
+import java.util.Objects;
 
 public class ServerMain {
     //----------------------------------------------------------------------
@@ -35,7 +36,8 @@ public class ServerMain {
         // Solicita qué archivo se desea enviar. 1 indica 100MB. 2 indica 250MB.
         getFileOptionInput();
         System.out.println("");
-        
+
+        deleteLogDirectory();
         // Inicializa y comienza cada thread que representa clientes que intentan conectarse al servidor.
         for( int i = 0; i<numberOfClients; i++){
             ServerThread s = new ServerThread(i, fileOptionPath);
@@ -118,5 +120,14 @@ public class ServerMain {
             fileOptionPath = FILE_2_PATH;
         }
 
+    }
+    public static void deleteLogDirectory(){
+        File directory = new File("Server/Logs");
+ 
+        for (File file: Objects.requireNonNull(directory.listFiles())) {
+            if (!file.isDirectory()) {
+                file.delete();
+            }
+        }
     }
 }

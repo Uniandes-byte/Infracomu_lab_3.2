@@ -111,20 +111,21 @@ public class ServerThread extends Thread{
             // Se cierra la conexión.
             fileInputStream.close();
         } catch (Exception e) {
+            createLog(10000000);
             e.printStackTrace();
         } 
     }
 
     public void createLog(long totalTime) {
         try {
-            File file = new File("Server/Logs/Connection-" + obtenerHoraNombre() + "-Log.txt");
+            File file = new File("Server/Logs/Connection-"+id+"-" + obtenerHoraNombre() + "-Log.txt");
             File fileDirectory = new File(filePath);
             if (file.exists()) {
-                FileWriter myWriter = new FileWriter("Server/Logs/Connection-" + obtenerHoraNombre() + "-Log.txt");
+                FileWriter myWriter = new FileWriter("Server/Logs/Connection-" +id+"-"+obtenerHoraNombre() + "-Log.txt");
                 myWriter.write("Fecha Prueba: " + obtenerHora() + "\n");
                 myWriter.write("Nombre Archivo: " + getFileName(filePath) + " Tamano: " + fileDirectory.length()
                         + " Bytes" + "\n");
-                myWriter.write("Entrega del archivo: " + tipoEntrega(fileDirectory.length()) + "\n");
+                myWriter.write("Entrega del archivo: " + tipoEntrega(fileDirectory.length(), totalTime) + "\n");
                 myWriter.write("Tiempo Transferencia: " + totalTime + "ms" + "\n");
                 myWriter.close();
             } else {
@@ -149,13 +150,16 @@ public class ServerThread extends Thread{
         return fileName;
     }
 
-    public String tipoEntrega(long tamano) {
+    public String tipoEntrega(long tamano, long Totaltime) {
 
         String tipoEntrega = "";
         if (tamano == 104857600 || tamano == 262144000) {
             tipoEntrega = "Entrega Exitosa";
-        } else {
+        } else if(Totaltime==10000000){
             tipoEntrega = "Entrega Fallida*";
+        }
+        else{
+            tipoEntrega = "Entrega Fallida";
         }
         return tipoEntrega;
 

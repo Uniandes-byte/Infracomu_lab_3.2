@@ -1,0 +1,4 @@
+Fecha Prueba: 2022/10/24 05:08:40
+Nombre Archivo: file1.txt Tamano: 104857600 Bytes
+Entrega del archivo: Entrega Exitosa
+Tiempo Transferencia: 94ms
