@@ -1,4 +1,0 @@
-Fecha Prueba: 2022/10/24 04:41:39
-Nombre Archivo: Cliente2-Prueba-3.txt Tamano: 0 Bytes
-Entrega del archivo: Entrega Fallida*
-Tiempo Transferencia: 10010ms

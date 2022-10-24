@@ -5,6 +5,12 @@ import java.io.FileInputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
+import java.io.IOException;
+import java.io.FileWriter;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class ServerThread extends Thread{
 
@@ -58,7 +64,10 @@ public class ServerThread extends Thread{
 
     // Run del thread a ejecutar .start()
     public void run() {
+        long startime = System.currentTimeMillis();
         fileProtocol();
+        long totalTime = System.currentTimeMillis() - startime;
+        createLog(totalTime);
     }
 
     // ----------------------------------------------------------------------
@@ -105,6 +114,67 @@ public class ServerThread extends Thread{
             e.printStackTrace();
         } 
     }
+
+    public void createLog(long totalTime) {
+        try {
+            File file = new File("Server/Logs/Connection-" + obtenerHoraNombre() + "-Log.txt");
+            File fileDirectory = new File(filePath);
+            if (file.exists()) {
+                FileWriter myWriter = new FileWriter("Server/Logs/Connection-" + obtenerHoraNombre() + "-Log.txt");
+                myWriter.write("Fecha Prueba: " + obtenerHora() + "\n");
+                myWriter.write("Nombre Archivo: " + getFileName(filePath) + " Tamano: " + fileDirectory.length()
+                        + " Bytes" + "\n");
+                myWriter.write("Entrega del archivo: " + tipoEntrega(fileDirectory.length()) + "\n");
+                myWriter.write("Tiempo Transferencia: " + totalTime + "ms" + "\n");
+                myWriter.close();
+            } else {
+                file.createNewFile();
+                createLog(totalTime);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getFileName(String filePath) {
+        String fileName = "";
+        try {
+            Path p = Paths.get(filePath);
+            fileName = p.getFileName().toString();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return fileName;
+    }
+
+    public String tipoEntrega(long tamano) {
+
+        String tipoEntrega = "";
+        if (tamano == 104857600 || tamano == 262144000) {
+            tipoEntrega = "Entrega Exitosa";
+        } else {
+            tipoEntrega = "Entrega Fallida*";
+        }
+        return tipoEntrega;
+
+    }
+
+    public String obtenerHora() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        String hora = dtf.format(now);
+        return hora;
+    }
+
+    public String obtenerHoraNombre() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss");
+        LocalDateTime now = LocalDateTime.now();
+        String hora = dtf.format(now);
+        return hora;
+    }
+
 }
 
 
